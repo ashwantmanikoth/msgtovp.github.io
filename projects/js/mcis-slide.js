@@ -119,7 +119,7 @@
             $(settings.selector).css({
                 display: "none"
             });
-            $(settings.control + ":nth-child(" + index + "").addClass("active");
+            $(settings.control + ":nth-child(" + index + ")").addClass("active");
             $(settings.selector + ":nth-child(" + index + ")").css({
                 display: "block"
             });
