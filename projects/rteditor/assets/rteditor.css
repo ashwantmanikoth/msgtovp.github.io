@@ -1,0 +1,31 @@
+.rteditor {
+    position: relative;
+    margin: 0 auto;
+    width: 1024px;
+    -webkit-box-shadow: 0 6px 9px #aaa;
+    -moz-box-shadow: 0 6px 9px #aaa;
+    box-shadow: 0 6px 9px #aaa;
+}
+
+.rteditor *,
+.rteditor *:hover,
+.rteditor *:active,
+.rteditor *:focus,
+.rteditor *:link {
+    outline: none;
+}
+
+.rteditor>.controls {
+    position: relative;
+    height: 100px;
+    background-color: #ecf0f1;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.rteditor>.content {
+    position: relative;
+    height: 400px;
+    padding: 10px;
+    overflow-y: scroll;
+}
