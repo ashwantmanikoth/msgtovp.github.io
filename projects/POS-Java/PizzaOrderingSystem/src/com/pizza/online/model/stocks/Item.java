@@ -31,9 +31,7 @@ public class Item implements Serializable {
 	private Integer id;
 	private String name;
 	private String toppings;
-	private Integer quantity;
 	private Category category;
-	private Double price;
 	private Collection<Images> images = new HashSet<Images>();
 
 	@Id
@@ -65,15 +63,6 @@ public class Item implements Serializable {
 		this.toppings = toppings;
 	}
 
-	@Column(name = "quantity")
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
 	@Column(name = "category", length = 10)
 	@Enumerated(EnumType.STRING)
 	public Category getCategory() {
@@ -82,15 +71,6 @@ public class Item implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	@Column(name = "price", length = 10, precision = 2)
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -105,8 +85,6 @@ public class Item implements Serializable {
 
 	public Item() {
 		super();
-		this.quantity = 0;
-		this.price = 0.0;
 		this.category = Category.NON_VEG;
 	}
 

@@ -29,8 +29,7 @@ create table if not exists pos_items(
     pid             int                         auto_increment,
     name            varchar(255)                not null,
     toppings        varchar(255)                not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
+
     category        varchar(10)                 not null,
     constraint      pos_items_pid_pk            primary key(pid),
     constraint      pos_items_category_chk      check(category in ('VEG', 'NON_VEG'))
@@ -51,8 +50,6 @@ create table if not exists pos_pizza(
     toppings        varchar(255)                not null,
     crust           varchar(30)                 not null,
     size            varchar(10)                 not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
     category        varchar(10)                 not null,
     menu            varchar(20)                 not null,
     constraint      pos_pizza_pid_pk            primary key(pid),
@@ -67,8 +64,6 @@ create table if not exists pos_sides(
     pid             int                         auto_increment,
     name            varchar(255)                not null,
     toppings        varchar(255)                not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
     category        varchar(10)                 not null,
     constraint      pos_sides_pid_pk            primary key(pid),
     constraint      pos_sides_category_chk      check(category in ('VEG', 'NON_VEG'))
@@ -79,8 +74,6 @@ create table if not exists pos_drinks(
     pid             int                         auto_increment,
     name            varchar(255)                not null,
     toppings        varchar(255)                not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
     category        varchar(10)                 not null,
     capacity        varchar(10)                 not null,
     constraint      pos_drinks_pid_pk           primary key(pid),
@@ -93,8 +86,6 @@ create table if not exists pos_desserts(
     pid             int                         auto_increment,
     name            varchar(255)                not null,
     toppings        varchar(255)                not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
     category        varchar(10)                 not null,
     constraint      pos_desserts_pid_pk         primary key(pid),
     constraint      pos_desserts_category_chk   check(category in ('VEG', 'NON_VEG'))
@@ -105,8 +96,6 @@ create table if not exists pos_magicpan(
     pid             int                         auto_increment,
     name            varchar(255)                not null,
     toppings        varchar(255)                not null,
-    quantity        int                         not null                default     0,
-    price           double(10, 2)               not null,
     category        varchar(10)                 not null,
     constraint      pos_magicpan_pid_pk         primary key(pid),
     constraint      pos_magicpan_category_chk   check(category in ('VEG', 'NON_VEG'))
@@ -139,3 +128,7 @@ create table if not exists pos_user_profile(
     constraint      pos_user_profile_email_id_fk    foreign key(email_id)   references  pos_user_credential(email_id),
     constraint      pos_user_profile_mobile_no_unq  unique(mobile_no)
 );
+
+
+-- quantity        int                         not null                default     0,
+-- price           double(10, 2)               not null,
