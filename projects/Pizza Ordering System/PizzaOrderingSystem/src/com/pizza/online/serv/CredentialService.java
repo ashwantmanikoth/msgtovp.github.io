@@ -5,6 +5,7 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 
 import com.pizza.online.model.UserCredential;
+import com.pizza.online.model.util.UserReply;
 import com.pizza.online.util.Utility;
 
 public class CredentialService extends FactoryService {
@@ -13,58 +14,75 @@ public class CredentialService extends FactoryService {
 		super();
 	}
 
-	public UserCredential activate(String emailId, String authKey) {
+	public boolean availability(String emailId) {
 		Session session = this.factory.openSession();
+		boolean status = false;
 
+		UserCredential credential = session.get(UserCredential.class, emailId);
+		if (credential != null) {
+			status = true;
+		}
+
+		session.close();
+		return status;
+	}
+
+	public UserReply activate(String emailId, String authKey) {
+		Session session = this.factory.openSession();
+		UserReply reply = new UserReply();
 		UserCredential credential = session.get(UserCredential.class, emailId);
 		if (credential != null && authKey.equals(credential.getAuthKey())) {
 			credential.setAuthKey("");
 			credential.setActivated(true);
-
+			reply.setStatus(true);
 			session.beginTransaction();
 			session.update(credential);
 			session.getTransaction().commit();
 		}
-		
+		reply.setCredential(credential);
 		session.close();
-		return credential;
+		return reply;
 	}
 
-	public UserCredential updatePassword(String emailId, String oldPassword, String newPassword) {
+	public UserReply updatePassword(String emailId, String oldPassword, String newPassword) {
 		Session session = this.factory.openSession();
-		
+
 		Query query = session.createQuery("from UserCredential where emailId = ? and password = ?");
 		query.setParameter(0, emailId);
 		query.setParameter(1, oldPassword);
-		
-		UserCredential credential = (UserCredential) query.getSingleResult();		
+		UserReply reply = new UserReply();
+		UserCredential credential = (UserCredential) query.getSingleResult();
 		if (credential != null && credential.getActivated()) {
 			credential.setPassword(newPassword);
-
+			reply.setStatus(true);
 			session.beginTransaction();
 			session.update(credential);
 			session.getTransaction().commit();
 		}
-		
+		reply.setCredential(credential);
 		session.close();
-		return credential;
+		return reply;
 	}
 
-	public UserCredential create(String emailId, String password) {
+	public UserReply create(String emailId, String password) {
 		Session session = this.factory.openSession();
 		session.beginTransaction();
+		UserCredential credential = session.get(UserCredential.class, emailId);
+		UserReply reply = new UserReply();
+		if (credential == null) {
+			credential = new UserCredential();
+			credential.setEmailId(emailId);
+			credential.setPassword(password);
+			credential.setAuthKey(Utility.generateKey(20));
+			credential.setActivated(false);
+			reply.setStatus(true);
+			session.save(credential);
 
-		UserCredential credential = new UserCredential();
-		credential.setEmailId(emailId);
-		credential.setPassword(password);
-		credential.setAuthKey(Utility.generateKey(20));
-		credential.setActivated(false);
-
-		session.save(credential);
-
-		session.getTransaction().commit();
+			session.getTransaction().commit();
+		}
+		reply.setCredential(credential);
 		session.close();
-		return credential;
+		return reply;
 	}
 
 	public CredentialStatus validate(String emailId, String password) {
@@ -101,43 +119,44 @@ public class CredentialService extends FactoryService {
 		return status;
 	}
 
-	public boolean check(String emailId, String authKey) {
+	public UserReply check(String emailId, String authKey) {
 		Session session = this.factory.openSession();
-		boolean status = false;
+		UserReply reply = new UserReply();
 
 		UserCredential credential = session.get(UserCredential.class, emailId);
 		if (credential != null && credential.getActivated() && authKey.equals(credential.getAuthKey())) {
-			status = true;
+			reply.setStatus(true);
 		}
-
+		reply.setCredential(credential);
 		session.close();
-		return status;
+		return reply;
 	}
-	
-	public boolean reset(String emailId, String password) {
+
+	public UserReply reset(String emailId, String password) {
 		Session session = this.factory.openSession();
-		boolean status = false;
+		UserReply reply = new UserReply();
 		Query query = session.createQuery("from UserCredential where emailId = ? and password = ?");
 		query.setParameter(0, emailId);
 		query.setParameter(1, password);
-		
+
 		UserCredential credential = (UserCredential) query.getSingleResult();
-		if (credential != null && credential.getActivated() && password.equals(credential.getPassword()) && !credential.getAuthKey().isEmpty()) {
+		if (credential != null && credential.getActivated() && password.equals(credential.getPassword())
+				&& !credential.getAuthKey().isEmpty()) {
 			session.beginTransaction();
-			status = true;
+			reply.setStatus(true);
 			credential.setAuthKey("");
 			session.update(credential);
 			session.getTransaction().commit();
 		}
-
+		reply.setCredential(credential);
 		session.close();
-		return status;
+		return reply;
 	}
-	
+
 	public String request(String emailId) {
 		Session session = this.factory.openSession();
 		String authKey = null;
-		UserCredential credential = session.get(UserCredential.class, emailId);		
+		UserCredential credential = session.get(UserCredential.class, emailId);
 		if (credential != null && credential.getActivated()) {
 			session.beginTransaction();
 			authKey = Utility.generateKey(20);
@@ -146,29 +165,32 @@ public class CredentialService extends FactoryService {
 			session.update(credential);
 			session.getTransaction().commit();
 		}
-		
+
 		session.close();
 		return authKey;
 	}
-	
-	public UserCredential resetPassword(String emailId, String authKey, String password) {
+
+	public UserReply resetPassword(String emailId, String authKey, String password) {
 		Session session = this.factory.openSession();
-		
+
 		Query query = session.createQuery("from UserCredential where emailId = ? and authKey = ?");
 		query.setParameter(0, emailId);
 		query.setParameter(1, authKey);
-		
-		UserCredential credential = (UserCredential) query.getSingleResult();		
+		UserReply reply = new UserReply();
+		UserCredential credential = (UserCredential) query.getSingleResult();
 		if (credential != null) {
 			credential.setAuthKey("");
 			credential.setPassword(password);
 			credential.setActivated(true);
+
+			reply.setStatus(true);
+
 			session.beginTransaction();
 			session.update(credential);
 			session.getTransaction().commit();
 		}
-		
+		reply.setCredential(credential);
 		session.close();
-		return credential;
+		return reply;
 	}
 }

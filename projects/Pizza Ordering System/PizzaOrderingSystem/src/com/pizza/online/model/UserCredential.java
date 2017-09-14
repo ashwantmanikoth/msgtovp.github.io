@@ -37,7 +37,7 @@ public class UserCredential implements Serializable {
 		return password;
 	}
 
-	@Column(name = "auth_key", length = 30)
+	@Column(name = "auth_key", length = 30, nullable = false)
 	public String getAuthKey() {
 		return authKey;
 	}

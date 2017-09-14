@@ -42,6 +42,13 @@
 		<mapping class="com.pizza.online.model.UserCredential" />
 		<mapping class="com.pizza.online.model.UserProfile" />
 		<mapping class="com.pizza.online.model.Address" />
+		<mapping class="com.pizza.online.model.stocks.Images" />
+		<mapping class="com.pizza.online.model.stocks.Crust" />
+		<mapping class="com.pizza.online.model.stocks.Item" />
+		<mapping class="com.pizza.online.model.stocks.Pizza" />
+		<mapping class="com.pizza.online.model.stocks.Sides" />
+		<mapping class="com.pizza.online.model.stocks.Drinks" />
+		<mapping class="com.pizza.online.model.stocks.MagicPan" />
 
 	</session-factory>
 
