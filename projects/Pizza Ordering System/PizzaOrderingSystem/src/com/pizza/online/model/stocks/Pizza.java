@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pos_pizza")
+@Table(name = "pos_pizza", catalog = "posdb")
 public class Pizza extends Item {
 
 	private static final long serialVersionUID = 5249543221713172904L;
@@ -21,7 +21,6 @@ public class Pizza extends Item {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "crust")
-	@Column(length = 30)
 	public Crust getCrust() {
 		return crust;
 	}

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pos_magicpan")
+@Table(name = "pos_magicpan", catalog = "posdb")
 public class MagicPan extends Item {
 
 	private static final long serialVersionUID = 6079710287898994081L;

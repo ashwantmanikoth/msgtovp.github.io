@@ -48,6 +48,7 @@
 		<mapping class="com.pizza.online.model.stocks.Pizza" />
 		<mapping class="com.pizza.online.model.stocks.Sides" />
 		<mapping class="com.pizza.online.model.stocks.Drinks" />
+		<mapping class="com.pizza.online.model.stocks.Desserts" />
 		<mapping class="com.pizza.online.model.stocks.MagicPan" />
 
 	</session-factory>

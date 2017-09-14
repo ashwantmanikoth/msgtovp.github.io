@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 @Entity
-@Table(name = "pos_images")
+@Table(name = "pos_images", catalog = "posdb")
 @TableGenerator(name = "img_tab_gen", allocationSize = 1, initialValue = 100, catalog = "posdb", table = "pos_table_gen", pkColumnName = "name", valueColumnName = "value", pkColumnValue = "image_id")
 public class Images implements Serializable {
 

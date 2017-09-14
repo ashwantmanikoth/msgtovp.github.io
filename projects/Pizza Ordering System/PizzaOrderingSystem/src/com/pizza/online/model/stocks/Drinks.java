@@ -7,7 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pos_drinks")
+@Table(name = "pos_drinks", catalog = "posdb")
 public class Drinks extends Item {
 
 	private Capacity capacity;

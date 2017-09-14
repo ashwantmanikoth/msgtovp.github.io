@@ -5,9 +5,9 @@ create table if not exists pos_table_gen(
 );
 
 create table if not exists pos_crust(
-    name            varchar(30)                 not null,
+    crust_name      varchar(30)                 not null,
     description     varchar(100)                not null,
-    constraint      pos_crust_name_pk           primary key(name)
+    constraint      pos_crust_name_pk           primary key(crust_name)
 );
 
 insert into pos_crust values('PAN', 'A thick crust is baked to golden perfection, crispy on the outside, soft & fluffy on the inside.');
@@ -39,6 +39,7 @@ create table if not exists pos_items(
 create table if not exists pos_items_images(
     pid             int,
     image_id        int,
+    constraint      pos_items_images_unq            unique(image_id),
     constraint      pos_items_images_pid_fk         foreign key(pid)        references  pos_items(pid),
     constraint      pos_items_images_image_id_fk    foreign key(image_id)   references  pos_images(image_id)
 );
@@ -55,7 +56,7 @@ create table if not exists pos_pizza(
     category        varchar(10)                 not null,
     menu            varchar(20)                 not null,
     constraint      pos_pizza_pid_pk            primary key(pid),
-    constraint      pos_pizza_crust_fk          foreign key(crust)      references  pos_crust(name),
+    constraint      pos_pizza_crust_fk          foreign key(crust)      references  pos_crust(crust_name),
     constraint      pos_pizza_size_chk          check(size in ('MEDIUM', 'LARGE', 'SMALL')),
     constraint      pos_pizza_category_chk      check(category in ('VEG', 'NON_VEG')),
     constraint      pos_pizza_menu_chk          check(menu in ('SUPREME', 'SIGNATURE', 'FAVOURITE', 'CLASSIC', 'OVERLOADED'))
@@ -128,7 +129,7 @@ create table if not exists pos_user_profile(
     email_id        varchar(255)                not null,
     first_name      varchar(100)                not null,
     last_name       varchar(100)                not null                default     '',
-    mobile          varchar(50)                 not null,
+    mobile_no       varchar(50)                 not null,
     house_no        varchar(100)                not null,
     street_name     varchar(100)                not null,
     location        varchar(100)                not null,
@@ -136,6 +137,5 @@ create table if not exists pos_user_profile(
     pincode         int                         not null,
     constraint      pos_user_profile_prof_id_pk     primary key(prof_id),
     constraint      pos_user_profile_email_id_fk    foreign key(email_id)   references  pos_user_credential(email_id),
-    constraint      pos_user_profile_mobile_unq     unique(mobile)
+    constraint      pos_user_profile_mobile_no_unq  unique(mobile_no)
 );
-

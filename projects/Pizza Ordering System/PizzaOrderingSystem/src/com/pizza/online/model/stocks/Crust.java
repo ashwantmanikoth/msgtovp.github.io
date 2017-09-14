@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pos_crust")
+@Table(name = "pos_crust", catalog = "posdb")
 public class Crust implements Serializable {
 
 	private static final long serialVersionUID = -1702758082983911393L;

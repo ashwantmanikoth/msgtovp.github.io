@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 @Entity
-@Table(name = "pos_items")
+@Table(name = "pos_items", catalog = "posdb")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @TableGenerator(name = "items_tab_gen", allocationSize = 1, initialValue = 100, catalog = "posdb", table = "pos_table_gen", pkColumnName = "name", valueColumnName = "value", pkColumnValue = "pid")
 public class Item implements Serializable {
